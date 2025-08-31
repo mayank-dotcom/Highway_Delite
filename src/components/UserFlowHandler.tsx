@@ -9,11 +9,9 @@ interface UserFlowHandlerProps {
   mode: 'signup' | 'signin'
 }
 
-export function UserFlowHandler({ children, mode }: UserFlowHandlerProps) {
+export function UserFlowHandler({ children }: UserFlowHandlerProps) {
   const { user, isAuthenticated, isLoading } = useAuth()
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const [isChecking, setIsChecking] = useState(false)
+  const [isChecking] = useState(false)
 
   useEffect(() => {
     // If user is already authenticated, redirect to dashboard

@@ -1,4 +1,4 @@
-import { Adapter, AdapterUser, AdapterSession, AdapterAccount } from "next-auth/adapters";
+import { Adapter, AdapterUser } from "next-auth/adapters";
 import connectDB from "../mongodb";
 import User from "../models/User";
 
@@ -47,7 +47,7 @@ export default function MongoDBAdapter(): Adapter {
       } as AdapterUser;
     },
 
-    async getUserByAccount({ provider, providerAccountId }) {
+    async getUserByAccount({ providerAccountId }) {
       await connectDB();
       // For simplicity, we'll use email as the primary identifier
       // In a production app, you might want to create a separate Account model
@@ -95,7 +95,7 @@ export default function MongoDBAdapter(): Adapter {
       return account;
     },
 
-    async unlinkAccount({ provider, providerAccountId }) {
+    async unlinkAccount() {
       // For simplicity, we'll skip account unlinking
     },
 
@@ -104,7 +104,7 @@ export default function MongoDBAdapter(): Adapter {
       return session;
     },
 
-    async getSessionAndUser(sessionToken) {
+    async getSessionAndUser() {
       // For JWT strategy, sessions are handled by NextAuth
       return null;
     },
@@ -114,7 +114,7 @@ export default function MongoDBAdapter(): Adapter {
       return session;
     },
 
-    async deleteSession(sessionToken) {
+    async deleteSession() {
       // For JWT strategy, sessions are handled by NextAuth
     },
 
@@ -123,7 +123,7 @@ export default function MongoDBAdapter(): Adapter {
       return verificationToken;
     },
 
-    async useVerificationToken({ identifier, token }) {
+    async useVerificationToken() {
       // For simplicity, we'll skip verification tokens
       return null;
     },

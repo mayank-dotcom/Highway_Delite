@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function SignupOTPPage() {
-  const router = useRouter();
   const [formData, setFormData] = useState({
     name: 'Jonas Khanwald',
     dateOfBirth: '11 December 1997',

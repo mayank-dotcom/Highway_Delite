@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth"
 import connectDB from "./mongodb"
 import User from "./models/User"
+import jwt from 'jsonwebtoken'
 // JWT verification handled on server side
 
 export const authOptions: NextAuthOptions = {
@@ -25,10 +26,10 @@ export const authOptions: NextAuthOptions = {
       }
       return session
     },
-    async jwt({ token, account, profile }) {
+    async jwt({ token }) {
       return token
     },
-    async redirect({ url, baseUrl }) {
+    async redirect({ baseUrl }) {
       // Always redirect to dashboard after successful sign-in
       return `${baseUrl}/dashboard`
     },
@@ -49,11 +50,9 @@ export async function verifyAuthToken(request: Request) {
 
     const token = authHeader.substring(7);
     
-    // Import jwt dynamically for server-side use
-    const jwt = require('jsonwebtoken');
     const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
     
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET) as { email?: string };
     
     if (!decoded || !decoded.email) {
       return null;

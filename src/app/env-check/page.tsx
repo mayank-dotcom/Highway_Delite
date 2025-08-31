@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 export default function EnvCheckPage() {
-  const [envData, setEnvData] = useState<any>(null);
+  const [envData, setEnvData] = useState<Record<string, string | boolean> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useAuth, signOutOTP } from "@/lib/auth-hook"
 
 
@@ -15,46 +15,27 @@ interface Note {
 
 export default function Dashboard() {
   const { user, isAuthenticated, isLoading } = useAuth()
-  const router = useRouter()
-  const [userData, setUserData] = useState<any>(null)
-  const [loading, setLoading] = useState(false)
+  const [userData, setUserData] = useState<{ email: string; name?: string } | null>(null)
   const [notes, setNotes] = useState<Note[]>([])
   const [notesLoading, setNotesLoading] = useState(false)
   const [editingNote, setEditingNote] = useState<string | null>(null)
   const [expandedNotes, setExpandedNotes] = useState<Set<string>>(new Set())
   const [editForm, setEditForm] = useState<{ title: string; content: string }>({ title: '', content: '' })
 
-  useEffect(() => {
-    if (isLoading) return 
-    if (!isAuthenticated) {
-      window.location.href = "/signin-otp" 
-    }
-  }, [isAuthenticated, isLoading])
-
-  useEffect(() => {
-    if (user?.email) {
-      fetchUserData()
-      fetchNotes()
-    }
-  }, [user])
-
-  const fetchUserData = async () => {
-    setLoading(true)
+  const fetchUserData = useCallback(async () => {
     try {
       const response = await fetch('/api/users')
       const data = await response.json()
       if (data.success) {
-        const currentUser = data.users.find((userData: any) => userData.email === user?.email)
+        const currentUser = data.users.find((userData: { email: string; name?: string }) => userData.email === user?.email)
         setUserData(currentUser)
       }
     } catch (error) {
       console.error('Error fetching user data:', error)
-    } finally {
-      setLoading(false)
     }
-  }
+  }, [user?.email])
 
-  const fetchNotes = async () => {
+  const fetchNotes = useCallback(async () => {
     setNotesLoading(true)
     try {
       const token = localStorage.getItem('token')
@@ -74,7 +55,21 @@ export default function Dashboard() {
     } finally {
       setNotesLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    if (isLoading) return 
+    if (!isAuthenticated) {
+      window.location.href = "/signin-otp" 
+    }
+  }, [isAuthenticated, isLoading])
+
+  useEffect(() => {
+    if (user?.email) {
+      fetchUserData()
+      fetchNotes()
+    }
+  }, [user, fetchUserData, fetchNotes])
 
   const createNote = async () => {
     try {

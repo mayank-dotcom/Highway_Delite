@@ -52,7 +52,7 @@ export default function SignInPage() {
             </form>
 
             <p className="mt-3 text-center text-xs text-black">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/" className="font-medium text-blue-600 hover:underline">
                 Sign up
               </Link>
@@ -76,28 +76,4 @@ export default function SignInPage() {
   )
 }
 
-function Label({ id, children }: { id: string; children: React.ReactNode }) {
-  return (
-    <label htmlFor={id} className="mb-1 block text-xs font-medium text-black">
-      {children}
-    </label>
-  )
-}
 
-function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <input
-      {...props}
-      className={`h-10 w-full rounded-md border border-input bg-white px-3 text-sm text-black outline-none ring-offset-background transition-colors placeholder:text-gray-500 focus-visible:ring-2 focus-visible:ring-blue-600/60 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${props.className || ""}`}
-    />
-  )
-}
-
-function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button
-      {...props}
-      className={`inline-flex h-10 w-full items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/60 focus-visible:ring-offset-2 ${props.className || ""}`}
-    />
-  )
-}

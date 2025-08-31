@@ -43,9 +43,7 @@ A modern Next.js application with OTP-based authentication, MongoDB integration,
    # MongoDB Connection
    MONGODB_URI=your-mongodb-connection-string
    
-   # NextAuth (for compatibility)
-   NEXTAUTH_SECRET=your-nextauth-secret
-   NEXTAUTH_URL=http://localhost:3000
+   
    ```
 
 4. **Start the development server**
@@ -91,10 +89,6 @@ JWT_SECRET=your-super-secret-jwt-key    # Random string for JWT signing
 
 # Database
 MONGODB_URI=mongodb+srv://...           # MongoDB connection string
-
-# NextAuth (legacy support)
-NEXTAUTH_SECRET=random-string           # Random string for NextAuth
-NEXTAUTH_URL=http://localhost:3000      # Your app URL
 ```
 
 ## Project Structure
@@ -252,8 +246,6 @@ Remember to set all environment variables in your production environment:
 - `EMAIL_PASSWORD`
 - `JWT_SECRET`
 - `MONGODB_URI`
-- `NEXTAUTH_SECRET`
-- `NEXTAUTH_URL`
 
 ## Contributing
 
@@ -278,3 +270,4 @@ For issues and questions:
 ---
 
 **Note**: This application uses OTP-based authentication as the primary method. All users authenticate via email OTP, and the system is designed for simplicity and security.
+

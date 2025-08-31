@@ -2,8 +2,9 @@
 
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
+import { Suspense } from "react"
 
-export default function AuthError() {
+function AuthErrorContent() {
   const searchParams = useSearchParams()
   const error = searchParams.get("error")
 
@@ -63,5 +64,33 @@ export default function AuthError() {
         </div>
       </div>
     </main>
+  )
+}
+
+export default function AuthError() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-white flex items-center justify-center">
+        <div className="max-w-md w-full text-center">
+          <div className="flex items-center justify-center gap-2 mb-8">
+            <img src="/hdlogo.png" alt="HD Logo" className="h-8 w-8" />
+            <span className="text-xl font-semibold tracking-tight text-black">HD</span>
+          </div>
+          <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
+            <div className="flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+            </div>
+            <h1 className="text-lg font-semibold text-red-800 mb-2">Loading...</h1>
+            <p className="text-sm text-red-600">Please wait while we load the error details.</p>
+          </div>
+        </div>
+      </main>
+    }>
+      <AuthErrorContent />
+    </Suspense>
   )
 }

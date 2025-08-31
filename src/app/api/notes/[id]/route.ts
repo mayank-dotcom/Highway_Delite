@@ -7,7 +7,7 @@ import User from '@/lib/models/User';
 // DELETE a specific note
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const auth = await verifyAuthToken(request);
@@ -15,7 +15,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const noteId = params.id;
+    const { id: noteId } = await params;
     if (!noteId) {
       return NextResponse.json({ error: 'Note ID is required' }, { status: 400 });
     }
@@ -57,7 +57,7 @@ export async function DELETE(
 // PUT update a specific note
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const auth = await verifyAuthToken(request);
@@ -65,7 +65,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const noteId = params.id;
+    const { id: noteId } = await params;
     const { title, content } = await request.json();
     
     if (!noteId) {

@@ -4,7 +4,7 @@ import User from "../models/User";
 
 export default function MongoDBAdapter(): Adapter {
   return {
-    async createUser(user) {
+    async createUser(user: AdapterUser) {
       await connectDB();
       const newUser = await User.create({
         name: user.name,
@@ -21,7 +21,7 @@ export default function MongoDBAdapter(): Adapter {
       } as AdapterUser;
     },
 
-    async getUser(id) {
+    async getUser(id: string) {
       await connectDB();
       const user = await User.findById(id);
       if (!user) return null;
@@ -34,7 +34,7 @@ export default function MongoDBAdapter(): Adapter {
       } as AdapterUser;
     },
 
-    async getUserByEmail(email) {
+    async getUserByEmail(email: string) {
       await connectDB();
       const user = await User.findOne({ email });
       if (!user) return null;
@@ -47,7 +47,7 @@ export default function MongoDBAdapter(): Adapter {
       } as AdapterUser;
     },
 
-    async getUserByAccount({ providerAccountId }) {
+    async getUserByAccount({ providerAccountId }: { providerAccountId: string }) {
       await connectDB();
       // For simplicity, we'll use email as the primary identifier
       // In a production app, you might want to create a separate Account model
@@ -62,7 +62,7 @@ export default function MongoDBAdapter(): Adapter {
       } as AdapterUser;
     },
 
-    async updateUser(user) {
+    async updateUser(user: Partial<AdapterUser> & { id: string }) {
       await connectDB();
       const updatedUser = await User.findByIdAndUpdate(
         user.id,
@@ -84,12 +84,12 @@ export default function MongoDBAdapter(): Adapter {
       } as AdapterUser;
     },
 
-    async deleteUser(userId) {
+    async deleteUser(userId: string) {
       await connectDB();
       await User.findByIdAndDelete(userId);
     },
 
-    async linkAccount(account) {
+    async linkAccount(account: any) {
       // For simplicity, we'll skip account linking
       // In a production app, you might want to create a separate Account model
       return account;
@@ -99,7 +99,7 @@ export default function MongoDBAdapter(): Adapter {
       // For simplicity, we'll skip account unlinking
     },
 
-    async createSession(session) {
+    async createSession(session: any) {
       // For JWT strategy, sessions are handled by NextAuth
       return session;
     },
@@ -109,7 +109,7 @@ export default function MongoDBAdapter(): Adapter {
       return null;
     },
 
-    async updateSession(session) {
+    async updateSession(session: any) {
       // For JWT strategy, sessions are handled by NextAuth
       return session;
     },
@@ -118,7 +118,7 @@ export default function MongoDBAdapter(): Adapter {
       // For JWT strategy, sessions are handled by NextAuth
     },
 
-    async createVerificationToken(verificationToken) {
+    async createVerificationToken(verificationToken: any) {
       // For simplicity, we'll skip verification tokens
       return verificationToken;
     },
